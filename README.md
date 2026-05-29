@@ -221,7 +221,8 @@ class MyPlugin(Plugin):
                 return
 
             menu.close(player)
-            self.openShop(player, item.item_meta.display_name)
+            name = item.item_meta.display_name.replace("minecraft:", "")
+            self.openShop(player, name)
 
         menu.set_listener(on_click)
         menu.send_to(player)
