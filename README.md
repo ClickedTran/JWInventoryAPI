@@ -138,7 +138,7 @@ inv.contents                          # list[ItemStack | None]
 | `MenuType.HOPPER` | Hopper | 5 | No |
 | `MenuType.DISPENSER` | Dispenser | 9 | No |
 
-## Full Example
+## Example 1
 
 ```python
 from endstone import Player
@@ -180,3 +180,54 @@ class MyPlugin(Plugin):
             self.shop_menu.send_to(sender)
         return True
 ```
+
+## EXAMPLE 2
+```python
+from endstone import Player
+from endstone.inventory import ItemStack
+from endstone.plugin import Plugin
+from jwinventoryapi import Menu, MenuType, UIInventory
+
+
+class MyPlugin(Plugin):
+    api_version = "0.10"
+    prefix = "MyPlugin"
+    load = "POSTWORLD"
+
+    commands = {
+        "shop": {
+            "description": "Open the shop",
+            "usages": ["/shop"],
+        }
+    }
+
+    def on_enable(self) -> None:
+        self.logger.info(f"JWInventoryExample is enable!")
+
+    def on_command(self, sender, command, args) -> bool:
+        if command.name == "shop" and isinstanceof(sender, Player)
+            self.openMenu(sender)
+        return True
+
+    def openMenu(self, player: Player)
+        menu = Menu(MenuType.CHEST)
+        menu.set_name("Shop Menu")
+        inv = menu.inventory
+        inv.set_item(0, ItemStack("minecraft:diamond"))
+        inv.set_item(1, ItemStack("minecraft.iron_ingot"))
+        inv.set_item(3, ItemStack("minecraft:coal"))
+        def on_click(player: Player, slot: int, item: ItemStack, uiinv: UIInventory) -> None:
+            if slot is None and item.type == "minecraft:air"
+                return
+
+            menu.close(player)
+            self.openShop(player, item.item_meta.display_name)
+
+        menu.set_listener(on_click)
+        menu.send_to(player)
+
+    def openShop(self, player: Player, name: str)
+        menu = Menu(MenuType.HOPPER)
+        menu.set_name("§e{name.upper()}")
+        menu.send_to(player)
+         
